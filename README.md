@@ -1,49 +1,22 @@
-Overview
+BS-0006 - Airflow para times de dados
 ========
 
-Welcome to Astronomer! This project was generated after you ran 'astro dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
+Execute seu projeto localmente
+==============================
 
-Project Contents
-================
+1. Inicie o Airflow em sua máquina local executando 'astro dev start'.
 
-Your Astro project contains the following files and folders:
+Este comando irá iniciar 4 containers Docker em sua máquina, cada um para um componente diferente do Airflow:
 
-- dags: This folder contains the Python files for your Airflow DAGs. By default, this directory includes two example DAGs:
-    - `example_dag_basic`: This DAG shows a simple ETL data pipeline example with three TaskFlow API tasks that run daily.
-    - `example_dag_advanced`: This advanced DAG showcases a variety of Airflow features like branching, Jinja templates, task groups and several Airflow operators.
-- Dockerfile: This file contains a versioned Astro Runtime Docker image that provides a differentiated Airflow experience. If you want to execute other commands or overrides at runtime, specify them here.
-- include: This folder contains any additional files that you want to include as part of your project. It is empty by default.
-- packages.txt: Install OS-level packages needed for your project by adding them to this file. It is empty by default.
-- requirements.txt: Install Python packages needed for your project by adding them to this file. It is empty by default.
-- plugins: Add custom or community plugins for your project to this file. It is empty by default.
-- airflow_settings.yaml: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
+- Postgres: Banco de dados de metadados do Airflow
+- Webserver: O componente do Airflow responsável por renderizar a interface do Airflow
+- Scheduler: O componente do Airflow responsável por monitorar e acionar tarefas
+- Triggerer: O componente do Airflow responsável por acionar tarefas adiadas
 
-Deploy Your Project Locally
-===========================
+2. Verifique se os 4 containers Docker foram criados executando 'docker ps'.
 
-1. Start Airflow on your local machine by running 'astro dev start'.
+Observação: Executar 'astro dev start' iniciará seu projeto com o Airflow Webserver exposto na porta 8080 e o Postgres exposto na porta 5432. Se você já tiver uma dessas portas alocadas, você pode [parar os containers Docker existentes ou alterar a porta](https://docs.astronomer.io/astro/test-and-troubleshoot-locally#ports-are-not-available).
 
-This command will spin up 4 Docker containers on your machine, each for a different Airflow component:
+3. Acesse a interface do Airflow para o seu projeto local do Airflow. Para fazer isso, vá para http://localhost:8080/ e faça login com 'admin' tanto para o nome de usuário quanto para a senha.
 
-- Postgres: Airflow's Metadata Database
-- Webserver: The Airflow component responsible for rendering the Airflow UI
-- Scheduler: The Airflow component responsible for monitoring and triggering tasks
-- Triggerer: The Airflow component responsible for triggering deferred tasks
-
-2. Verify that all 4 Docker containers were created by running 'docker ps'.
-
-Note: Running 'astro dev start' will start your project with the Airflow Webserver exposed at port 8080 and Postgres exposed at port 5432. If you already have either of those ports allocated, you can either [stop your existing Docker containers or change the port](https://docs.astronomer.io/astro/test-and-troubleshoot-locally#ports-are-not-available).
-
-3. Access the Airflow UI for your local Airflow project. To do so, go to http://localhost:8080/ and log in with 'admin' for both your Username and Password.
-
-You should also be able to access your Postgres Database at 'localhost:5432/postgres'.
-
-Deploy Your Project to Astronomer
-=================================
-
-If you have an Astronomer account, pushing code to a Deployment on Astronomer is simple. For deploying instructions, refer to Astronomer documentation: https://docs.astronomer.io/cloud/deploy-code/
-
-Contact
-=======
-
-The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support.
+Você também deve ser capaz de acessar seu banco de dados Postgres em 'localhost:5432/postgres'.
