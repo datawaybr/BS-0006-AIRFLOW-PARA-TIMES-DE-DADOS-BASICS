@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from airflow import DAG
-from airflow.operators.python_operator import PythonOperator
 from airflow.operators.postgres_operator import PostgresOperator
 
 default_args = {
@@ -9,7 +8,7 @@ default_args = {
 }
 
 with DAG(
-    "example_dag_desafio",
+    "example_dag_desafio1",
     schedule_interval="* * * * *",
     start_date=datetime(2024, 1, 1),
     catchup=False,
@@ -19,8 +18,8 @@ with DAG(
 
     create_table = PostgresOperator(
         task_id='create_table',
-        sql='''CREATE TABLE IF NOT EXISTS usuarios (
-            id SERIAL PRIMARY KEY,
+        sql='''CREATE TABLE IF NOT EXISTS usuarios1 (
+            id INTEGER,
             nome VARCHAR(100),
             email VARCHAR(100),
             idade INTEGER
@@ -29,7 +28,7 @@ with DAG(
     )
 
     insert_usuarios = """
-        INSERT INTO usuarios (id, nome, email, idade)
+        INSERT INTO usuarios1 (id, nome, email, idade)
         VALUES
             (1, 'Usuario1', 'usuario1@example.com', 25),
             (2, 'Usuario2', 'usuario2@example.com', 30),

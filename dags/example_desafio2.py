@@ -18,7 +18,7 @@ dados_usuarios = [
 
 
 def insert_rows():
-    insert_query = "INSERT INTO usuarios (id, nome, email, idade) VALUES "
+    insert_query = "INSERT INTO usuarios2 (id, nome, email, idade) VALUES "
     values = []
 
     for usuario in dados_usuarios:
@@ -35,7 +35,7 @@ def insert_rows():
     insert_data.execute(context=None)
 
 with DAG(
-    "example_dag_desafio",
+    "example_dag_desafio2",
     schedule_interval="* * * * *",
     start_date=datetime(2024, 1, 1),
     catchup=False,
@@ -45,8 +45,8 @@ with DAG(
 
     create_table = PostgresOperator(
         task_id='create_table',
-        sql='''CREATE TABLE IF NOT EXISTS usuarios (
-            id SERIAL PRIMARY KEY,
+        sql='''CREATE TABLE IF NOT EXISTS usuarios2 (
+            id INTEGER,
             nome VARCHAR(100),
             email VARCHAR(100),
             idade INTEGER
